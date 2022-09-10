@@ -11,7 +11,6 @@ export class ApiService {
         'Content-Type': 'application/json',
       },
     });
-    this._setInterceptors();
   }
 
   createURL(uri) {
@@ -80,24 +79,7 @@ export class ApiService {
       });
   }
 
-  _setInterceptors() {
-    this.axiosInstance.interceptors.request.use((request) =>
-      this.authHelper.setAuthHeader(request)
-    );
-    this.axiosInstance.interceptors.response.use(
-      (response) => response,
-      (error) => this._handleError(error)
-    );
-  }
-
   async _handleError(error) {
-    // Detect refresh Token
-    if (error.isAxiosError && error.response?.status === 401) {
-      const originalRequest = error.config;
-      const req = await this.authHelper.handleRefreshToken(originalRequest);
-      return this.axiosInstance(req);
-    }
-
     // Make error model before promise
     if (error.isAxiosError && error.response) {
       // Axios error

@@ -6,7 +6,10 @@ import { BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { logger } from 'redux-logger';
 
+import { environment } from './core/config/environment';
+import { apiProcessingLogger } from './core/logger/api-logger';
 import Header from './layout/Header.jsx';
 import appRoutes from './app.routes';
 import { DialogProvider } from './core/context/DialogProvider';
@@ -15,8 +18,14 @@ import appMiddleware from './app.middleware';
 import { renderRoute } from './core/helper/renderRoute';
 
 const middleware = createSagaMiddleware();
+const middlewareArray = [middleware, apiProcessingLogger];
 
-const store = createStore(appReducer, applyMiddleware(middleware));
+let middlewareApply = middlewareArray;
+if (environment.isDevelopment) {
+  middlewareApply = [...middlewareApply, logger];
+}
+
+const store = createStore(appReducer, applyMiddleware(...middlewareApply));
 
 middleware.run(appMiddleware);
 

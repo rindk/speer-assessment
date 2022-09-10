@@ -1,7 +1,8 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 const ActivitiesOutlet = () => {
-  return <div>Activities Outlet</div>;
+  return <Outlet />;
 };
 
 export default ActivitiesOutlet;

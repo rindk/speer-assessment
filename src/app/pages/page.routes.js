@@ -1,11 +1,17 @@
 import activitiesRoutes from './activities/activities.routes';
-import Page  from './Page';
+import Page from './Page';
 
 const pageRoutes = [
   {
     path: '/',
     element: Page,
-    children: [...activitiesRoutes],
+    children: [
+      {
+        path: '',
+        redirect: '/activity',
+      },
+      ...activitiesRoutes,
+    ],
   },
 ];
 
