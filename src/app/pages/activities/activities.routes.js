@@ -12,7 +12,7 @@ const activitiesRoutes = [
         element: ActivityFeed,
       },
       {
-        path: ':id',
+        path: ':activityId',
         element: ActivityDetail,
       },
     ],

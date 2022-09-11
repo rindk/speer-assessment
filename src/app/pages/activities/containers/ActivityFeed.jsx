@@ -7,6 +7,8 @@ import { Box, CircularProgress, Typography, Stack } from '@mui/material';
 import { getActivityFeed } from '../activities.actions';
 import ActivityFeedItem from '../components/ActivityFeedItem';
 import NoActivity from '../components/NoActivity';
+import NavBar from '../../../core/shared/components/NavBar';
+import SpeedDialAtFeed from '../components/SpeedDial';
 
 const ActivityFeed = () => {
   const dispatch = useDispatch();
@@ -34,48 +36,50 @@ const ActivityFeed = () => {
   );
 
   useEffect(() => {
-    dispatch(getActivityFeed());
+    if (!activityFeed) {
+      dispatch(getActivityFeed());
+    }
   }, []);
 
   return (
-    <Box py={2}>
-      <Typography variant='h6' textAlign='center'>
-        Activity Feed
-      </Typography>
-      {isLoading ? (
-        <Box py={2} textAlign='center'>
-          <CircularProgress color='inherit' />
-        </Box>
-      ) : totalNotArchive ? (
-        <Stack mt={3} spacing={3} px={2}>
-          {/* {noArchiveFeed?.map( */}
-          {activityFeed?.map(
-            (item) =>
-              !!item?.data?.length && (
-                <Box key={item?.date}>
-                  <Typography
-                    variant='body1'
-                    textAlign='center'
-                    color='#8c8c8c'
-                  >
-                    {format(new Date(item?.date), 'MMMM, dd yyyy ')}
-                  </Typography>
-                  <Stack mt={1.5} spacing={2}>
-                    {item?.data?.map((activity) => (
-                      <ActivityFeedItem
-                        key={activity?.created_at}
-                        data={activity}
-                      />
-                    ))}
-                  </Stack>
-                </Box>
-              )
-          )}
-        </Stack>
-      ) : (
-        <NoActivity />
-      )}
-    </Box>
+    <React.Fragment>
+      <Box py={2}>
+        <NavBar title='Activity Feed' />
+        {isLoading ? (
+          <Box py={2} textAlign='center'>
+            <CircularProgress color='inherit' />
+          </Box>
+        ) : totalNotArchive ? (
+          <Stack mt={3} spacing={3} px={2}>
+            {noArchiveFeed?.map(
+              (item) =>
+                !!item?.data?.length && (
+                  <Box key={item?.date}>
+                    <Typography
+                      variant='body1'
+                      textAlign='center'
+                      color='#8c8c8c'
+                    >
+                      {format(new Date(item?.date), 'MMMM, dd yyyy ')}
+                    </Typography>
+                    <Stack mt={1.5} spacing={2}>
+                      {item?.data?.map((activity) => (
+                        <ActivityFeedItem
+                          key={activity?.created_at}
+                          data={activity}
+                        />
+                      ))}
+                    </Stack>
+                  </Box>
+                )
+            )}
+          </Stack>
+        ) : (
+          <NoActivity />
+        )}
+      </Box>
+      <SpeedDialAtFeed />
+    </React.Fragment>
   );
 };
 

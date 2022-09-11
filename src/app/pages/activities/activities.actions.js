@@ -40,23 +40,9 @@ export const getActivityDetailClear = () => ({
 });
 
 // Archive activity
-export const archiveActivity = (payload) => ({
+export const archiveActivity = (id, isArchive) => ({
   type: ACTION_TYPES.ARCHIVE_ACTIVITY,
-  payload,
-});
-
-export const archiveActivitySuccess = (payload) => ({
-  type: ACTION_TYPES.ARCHIVE_ACTIVITY_SUCCESS,
-  payload,
-});
-
-export const archiveActivityError = (payload) => ({
-  type: ACTION_TYPES.ARCHIVE_ACTIVITY_ERROR,
-  payload,
-});
-
-export const archiveActivityClear = () => ({
-  type: ACTION_TYPES.ARCHIVE_ACTIVITY_CLEAR,
+  payload: { id, isArchive, isProcessing: true },
 });
 
 // Reset activity

@@ -7,8 +7,11 @@ import { ENDPOINT } from '../../core/config/endpoint';
 import {
   getActivityFeedSuccess,
   getActivityFeedError,
+  getActivityFeedClear,
   getActivityDetailSuccess,
   getActivityDetailError,
+  archiveActivitySuccess,
+  archiveActivityError,
 } from './activities.actions';
 
 export function* getActivityFeed() {
@@ -28,7 +31,7 @@ export function* getActivityFeed() {
       date,
       data: groups[date],
     }));
-    
+
     // handle successful response
     yield put(getActivityFeedSuccess(result ?? res));
   } catch (error) {
@@ -49,7 +52,23 @@ export function* getActivityDetail({ payload }) {
   }
 }
 
+export function* archiveActivity({ payload }) {
+  const http = new ApiService();
+  try {
+    const res = yield http.post([`${ENDPOINT.activities}/${payload.id}`], {
+      is_archived: payload.isArchive,
+    });
+    // handle successful response
+    yield put(getActivityDetailSuccess(res));
+    yield put(getActivityFeedClear());
+  } catch (error) {
+    // handle error response
+    yield put(getActivityDetailError({ error }));
+  }
+}
+
 export function* watchActivity() {
   yield takeLatest(ACTION_TYPES.GET_ACTIVITY_FEED, getActivityFeed);
   yield takeLatest(ACTION_TYPES.GET_ACTIVITY_DETAIL, getActivityDetail);
+  yield takeLatest(ACTION_TYPES.ARCHIVE_ACTIVITY, archiveActivity);
 }
