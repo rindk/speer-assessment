@@ -10,9 +10,9 @@ export function apiProcessingLogger(store) {
           type: ACTION_TYPES.API_PROCESSING,
         });
       } else {
-        if (store.getState().apiControllerReducer?.isProcessing) {
+        if (store.getState().apiController?.isProcessing) {
           store.dispatch({
-            type: ACTION_TYPES.CLEAR_API_PROCESSING,
+            type: ACTION_TYPES.API_PROCESSING_CLEAR,
           });
         }
       }

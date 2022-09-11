@@ -157,7 +157,7 @@ const DialogProvider = (props) => {
 
   // Get apiControllerReducer state
   const apiState = useSelector((state) => {
-    return state.apiControllerReducer;
+    return state.apiController;
   });
 
   useEffect(() => {

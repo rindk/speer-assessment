@@ -29,7 +29,7 @@ const apiProcessingError = (state, payload) => ({
   error: payload,
 });
 
-const clearApiProcessing = (state, payload) => ({
+const apiProcessingClear = (state, payload) => ({
   ...state,
   isProcessing: false,
   hasError: false,
@@ -41,7 +41,7 @@ const strategies = {
   [ACTION_TYPES.API_PROCESSING]: apiProcessing,
   [ACTION_TYPES.API_PROCESSING_SUCCESS]: apiProcessingSuccess,
   [ACTION_TYPES.API_PROCESSING_ERROR]: apiProcessingError,
-  [ACTION_TYPES.CLEAR_API_PROCESSING]: clearApiProcessing,
+  [ACTION_TYPES.API_PROCESSING_CLEAR]: apiProcessingClear,
   __default__: (state) => state,
 };
 

@@ -20,6 +20,7 @@
 }
 
 #app .container-view {
-  padding: 20px;
+  height: calc(666px - 80px); /* 80px of header */
+  overflow: scroll;
 }
 

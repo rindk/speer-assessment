@@ -15,8 +15,22 @@ export function* getActivityFeed() {
   const http = new ApiService();
   try {
     const res = yield http.get([ENDPOINT.activities]);
+
+    let groups;
+    if (res?.length) {
+      groups = res.reduce((result, item) => {
+        const date = new Date(item.created_at).toLocaleDateString();
+        result[date] = [...(result[date] ?? []), item];
+        return result;
+      }, {});
+    }
+    const result = Object.keys(groups).map((date) => ({
+      date,
+      data: groups[date],
+    }));
+    
     // handle successful response
-    yield put(getActivityFeedSuccess(res));
+    yield put(getActivityFeedSuccess(result ?? res));
   } catch (error) {
     // handle error response
     yield put(getActivityFeedError({ error }));
