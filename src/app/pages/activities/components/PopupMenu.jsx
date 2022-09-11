@@ -14,6 +14,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import InfoIcon from '@mui/icons-material/Info';
 import ArchiveIcon from '@mui/icons-material/Archive';
 
+import { archiveActivity } from '../activities.actions';
+
 const PopupMenu = ({ data }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,22 +34,17 @@ const PopupMenu = ({ data }) => {
     {
       text: 'View call detail',
       icon: <InfoIcon htmlColor='#8c8c8c' />,
-      action: () => navigate(`${data?.id}`),
+      action: () => navigate(`/activity/${data?.id}`),
     },
     {
-      text: 'Archive',
+      text: data?.is_archived ? 'Unarchive' : 'Archive',
       icon: <ArchiveIcon htmlColor='#8c8c8c' />,
       action: () => handleArchiveActivity(data?.id, data?.is_archived),
     },
   ];
 
   const handleArchiveActivity = (id, isArchive) => {
-    console.log('id: ', id);
-    if (isArchive) {
-      console.log('isArchive: ', isArchive);
-    } else {
-      console.log('isArchive: ', isArchive);
-    }
+    dispatch(archiveActivity(id, !isArchive, true));
   };
 
   return (

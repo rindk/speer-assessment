@@ -12,6 +12,10 @@ const activitiesRoutes = [
         element: ActivityFeed,
       },
       {
+        path: 'archived',
+        element: ActivityFeed,
+      },
+      {
         path: ':activityId',
         element: ActivityDetail,
       },

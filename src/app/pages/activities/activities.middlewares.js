@@ -5,6 +5,7 @@ import { ApiService } from '../../core/service/api.service';
 import { ENDPOINT } from '../../core/config/endpoint';
 
 import {
+  getActivityFeed as getActivityFeedAction,
   getActivityFeedSuccess,
   getActivityFeedError,
   getActivityFeedClear,
@@ -12,6 +13,8 @@ import {
   getActivityDetailError,
   archiveActivitySuccess,
   archiveActivityError,
+  resetActivitySuccess,
+  resetActivityError,
 } from './activities.actions';
 
 export function* getActivityFeed() {
@@ -59,11 +62,25 @@ export function* archiveActivity({ payload }) {
       is_archived: payload.isArchive,
     });
     // handle successful response
+    yield put(archiveActivitySuccess(res?.is_archived));
     yield put(getActivityDetailSuccess(res));
-    yield put(getActivityFeedClear());
+    yield put(payload.needReload ? getActivityFeedAction() : getActivityFeedClear());
   } catch (error) {
     // handle error response
-    yield put(getActivityDetailError({ error }));
+    yield put(archiveActivityError());
+  }
+}
+
+export function* resetActivity() {
+  const http = new ApiService();
+  try {
+    const res = yield http.get([ENDPOINT.reset]);
+    // handle successful response
+    yield put(resetActivitySuccess());
+    yield put(getActivityFeedAction());
+  } catch (error) {
+    // handle error response
+    yield put(resetActivityError());
   }
 }
 
@@ -71,4 +88,5 @@ export function* watchActivity() {
   yield takeLatest(ACTION_TYPES.GET_ACTIVITY_FEED, getActivityFeed);
   yield takeLatest(ACTION_TYPES.GET_ACTIVITY_DETAIL, getActivityDetail);
   yield takeLatest(ACTION_TYPES.ARCHIVE_ACTIVITY, archiveActivity);
+  yield takeLatest(ACTION_TYPES.RESET_ACTIVITY, resetActivity);
 }

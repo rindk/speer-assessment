@@ -9,16 +9,26 @@ import createSagaMiddleware from 'redux-saga';
 import { logger } from 'redux-logger';
 
 import { environment } from './core/config/environment';
-import { apiProcessingLogger } from './core/logger/api-logger';
+import {
+  apiProcessingLogger,
+  apiErrorLogger,
+  apiSuccessLogger,
+} from './core/logger/api-logger';
 import Header from './layout/Header.jsx';
 import appRoutes from './app.routes';
 import { DialogProvider } from './core/context/DialogProvider';
 import { appReducer } from './app.reducers';
 import appMiddleware from './app.middleware';
 import { renderRoute } from './core/helper/renderRoute';
+import { AlertProvider } from './core/context/AlertProvider';
 
 const middleware = createSagaMiddleware();
-const middlewareArray = [middleware, apiProcessingLogger];
+const middlewareArray = [
+  middleware,
+  apiErrorLogger,
+  apiSuccessLogger,
+  apiProcessingLogger,
+];
 
 let middlewareApply = middlewareArray;
 if (environment.isDevelopment) {
@@ -34,12 +44,14 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Suspense fallback={<React.Fragment></React.Fragment>}>
-          <DialogProvider>
-            <div className='container'>
-              <Header />
-              <Routes>{renderRoute(appRoutes)}</Routes>
-            </div>
-          </DialogProvider>
+          <AlertProvider>
+            <DialogProvider>
+              <div className='container'>
+                <Header />
+                <Routes>{renderRoute(appRoutes)}</Routes>
+              </div>
+            </DialogProvider>
+          </AlertProvider>
         </Suspense>
       </Router>
     </Provider>

@@ -4,7 +4,7 @@ import { Box, IconButton, Stack, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useNavigate } from 'react-router';
 
-const NavBar = ({ hasBackBtn = false, title, to = '' }) => {
+const NavBar = ({ hasBackBtn = false, title, to = '/' }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {

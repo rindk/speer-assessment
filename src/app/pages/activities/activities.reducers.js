@@ -33,14 +33,7 @@ const getActivityFeedError = (state, payload) => ({
   error: payload,
 });
 
-const getActivityFeedClear = (state) => ({
-  ...state,
-  hasError: false,
-  isLoading: false,
-  isProcessing: false,
-  success: null,
-  error: null,
-});
+const getActivityFeedClear = (state) => initialState;
 
 // Get activity detail
 const getActivityDetail = (state) => ({
@@ -66,14 +59,7 @@ const getActivityDetailError = (state, payload) => ({
   error: payload,
 });
 
-const getActivityDetailClear = (state) => ({
-  ...state,
-  hasError: false,
-  isLoading: false,
-  isProcessing: false,
-  success: null,
-  error: null,
-});
+const getActivityDetailClear = (state) => initialState;
 
 const getActivityFeedStrategies = {
   [ACTION_TYPES.GET_ACTIVITY_FEED]: getActivityFeed,

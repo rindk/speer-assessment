@@ -40,27 +40,37 @@ export const getActivityDetailClear = () => ({
 });
 
 // Archive activity
-export const archiveActivity = (id, isArchive) => ({
+export const archiveActivity = (id, isArchive, needReload = false) => ({
   type: ACTION_TYPES.ARCHIVE_ACTIVITY,
-  payload: { id, isArchive, isProcessing: true },
+  payload: { id, isArchive, needReload, isProcessing: true },
+});
+
+export const archiveActivitySuccess = (isArchive) => ({
+  type: ACTION_TYPES.RESET_ACTIVITY_SUCCESS,
+  payload: {
+    success: {
+      message: `${isArchive ? 'Archived' : 'Unarchived'} successfully`,
+    },
+  },
+});
+
+export const archiveActivityError = () => ({
+  type: ACTION_TYPES.RESET_ACTIVITY_ERROR,
+  payload: { error: { message: 'Error' } },
 });
 
 // Reset activity
 export const resetActivity = () => ({
   type: ACTION_TYPES.RESET_ACTIVITY,
-  payload,
+  payload: { isProcessing: true },
 });
 
-export const resetActivitySuccess = (payload) => ({
+export const resetActivitySuccess = () => ({
   type: ACTION_TYPES.RESET_ACTIVITY_SUCCESS,
-  payload,
+  payload: { success: { message: 'Reset successfully' } },
 });
 
-export const resetActivityError = (payload) => ({
+export const resetActivityError = () => ({
   type: ACTION_TYPES.RESET_ACTIVITY_ERROR,
-  payload,
-});
-
-export const resetActivityClear = () => ({
-  type: ACTION_TYPES.RESET_ACTIVITY_CLEAR,
+  payload: { error: { message: 'Error' } },
 });

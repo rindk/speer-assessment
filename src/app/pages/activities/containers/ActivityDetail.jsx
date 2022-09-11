@@ -28,7 +28,7 @@ const ActivityDetail = () => {
 
   return (
     <Box py={2}>
-      <NavBar hasBackBtn={true} title='Activity Detail' to='/activity' />
+      <NavBar hasBackBtn={true} title='Activity Detail' to={-1} />
       {isLoading ? (
         <Box py={2} textAlign='center'>
           <CircularProgress color='inherit' />
